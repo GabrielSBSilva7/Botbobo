@@ -1,0 +1,47 @@
+from binance.client import Client
+from binance.enums import SIDE_BUY, ORDER_TYPE_MARKET
+import time
+
+# Substitua pelas suas chaves de API
+API_KEY = 'API'
+API_SECRET = 'API'
+
+# Inicializa o cliente da Binance
+client = Client(API_KEY, API_SECRET)
+
+# Função para verificar o saldo de uma moeda
+def verificar_saldo(moeda):
+    try:
+        saldo = client.get_asset_balance(asset=moeda)
+        print(f"Saldo de {moeda}: {saldo['free']}")
+    except Exception as e:
+        print(f"Erro ao verificar saldo: {e}")
+
+# Função para fazer uma ordem de compra de mercado
+def comprar_moeda(simbolo, quantidade):
+    try:
+        ordem = client.create_order(
+            symbol=simbolo,
+            side=SIDE_BUY,
+            type=ORDER_TYPE_MARKET,
+            quantity=quantidade
+        )
+        print(f"Ordem de compra executada: {ordem}")
+    except Exception as e:
+        print(f"Erro ao executar ordem de compra: {e}")
+
+# Exemplo de uso
+if __name__ == "__main__":
+    moeda = 'BTC'  # Moeda que você quer verificar/comprar
+    simbolo = 'BTCUSDT'  # Par de negociação
+    quantidade = 0.001  # Quantidade a comprar
+
+    # Verifica o saldo antes da compra
+    verificar_saldo(moeda)
+
+    # Faz uma ordem de compra
+    #comprar_moeda(simbolo, quantidade)
+
+    # Verifica o saldo após a compra
+    time.sleep(5)  # Espera 5 segundos para a ordem ser processada
+    verificar_saldo(moeda)
