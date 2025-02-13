@@ -1,10 +1,9 @@
 from binance.client import Client
-from binance.enums import SIDE_BUY, ORDER_TYPE_MARKET
+from binance.enums import SIDE_BUY, ORDER_TYPE_MARKET, SIDE_SELL
 import time
 
-# Substitua pelas suas chaves de API
-API_KEY = 'API'
-API_SECRET = 'API'
+API_KEY = '   '
+API_SECRET = '  '
 
 # Inicializa o cliente da Binance
 client = Client(API_KEY, API_SECRET, testnet = True)
@@ -29,6 +28,19 @@ def comprar_moeda(simbolo, quantidade):
         print(f"Ordem de compra executada: {ordem}")
     except Exception as e:
         print(f"Erro ao executar ordem de compra: {e}")
+
+# Função venda automática
+def vender_moeda(simbolo, quantidade):
+    try:
+        ordem = client.create_order(
+            symbol=simbolo,
+            side=SIDE_SELL,
+            type=ORDER_TYPE_MARKET,
+            quantity=quantidade
+        )
+        print(f"Ordem de venda executada: {ordem}")
+    except Exception as e:
+        print(f"Erro ao executar ordem de venda: {e}")
 
 # Exemplo de uso
 if __name__ == "__main__":
